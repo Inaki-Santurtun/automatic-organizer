@@ -1,0 +1,45 @@
+import os
+import shutil
+import re
+import datetime
+
+
+source = 'C:\\Users\\user\\Downloads'
+start = os.listdir(source)
+cur_date = str(datetime.date.today())
+dest = 'C:\\Users\\user\\Downloads\\'+cur_date
+
+# definimos nuestra funcion que nos organiza la carpeta, en este caso indicamos
+# el tipo de documento, la fuente, el destino y el archivo ("f") para evitar repetir
+
+def organize_documents(d_type, f, source_p, destination):
+    if re.findall(d_type, f):
+        try:
+            os.mkdir(destination + '\\' + d_type)
+        except OSError:
+            print('File already exists')
+        else:
+            print(f'Directory created successfully')
+        full_path = os.path.join(source_p, file)
+        shutil.move(full_path, destination + '\\' + d_type)
+
+# generamos el archivo con la fecha del dia donde se almacenan los archivos
+try:
+    os.mkdir('C:\\Users\\user\\Downloads\\'+cur_date)
+except OSError:
+    print('Main Date directory already exists')
+    print('Continuing...')
+
+# En el futuro voy a ver de actualizar con REGEX y generar que segun el tipo de archivo
+# cree la carpeta y sea una unica linea que corre y no por cada archivo manualmente.
+for file in start:
+    if os.path.isfile('C:\\Users\\user\\Downloads\\' + '\\' + file):
+        organize_documents('.doc', file, source, dest)
+        organize_documents('xlsx', file, source, dest)
+        organize_documents('.txt', file, source, dest)
+        organize_documents('.exe', file, source, dest)
+        organize_documents('.pdf', file, source, dest)
+        organize_documents('.jpg', file, source, dest)
+        organize_documents('.epub', file, source, dest)
+        organize_documents('.png', file, source, dest)
+        organize_documents('.zip', file, source, dest)
